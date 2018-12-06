@@ -1,0 +1,50 @@
+namespace one.xord.ddi
+
+participant Person identified by cnicNumber {
+  o String cnicNumber
+  o String phoneNumber
+}
+
+participant Bank identified by bankId {
+  o String bankId
+}
+
+asset Cnic identified by idNumber {
+  o String idNumber
+  o String fullName
+  o String fatherName
+  o Gender gender
+  o String country default = "Pakistan" optional
+  o String dob
+  o String doi
+  o String doe
+  --> Person owner optional
+}
+
+asset CnicClaim identified by hash {
+  o String hash
+  --> Person owner optional
+}
+
+asset Request identified by requestId {
+  o String requestId
+  o String cnicNumber
+  o RequestStatus status
+  --> Bank owner
+}
+
+enum Gender {
+  o MALE
+  o FEMALE
+}
+
+enum RequestStatus {
+  o ACCEPTED
+  o REJECTED
+  o REVOKED
+  o PENDING
+}
+
+transaction acceptRequest {
+  o String requestId
+}
